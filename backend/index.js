@@ -39,13 +39,14 @@ app.post("/api/insert", (require, response) => {
 app.post("/api/search", (require, response) => {
     // const tableName = require.body.tableName;
     // const attr = require.body.attr;
-    const value = require.body.patID;
-    console.log(value)
+    const patFname = require.body.patFname;
+    const patLname = require.body.patLname;
+    const patEmail = require.body.patEmail;
     //response.send(require);
 
 
-    const sqlSelect = "SELECT * FROM Patients WHERE PatientID = ?";
-    db.query(sqlSelect, [value], (err, result) => {
+    const sqlSelect = "SELECT * FROM Patients WHERE Fname = ? AND Lname = ? AND Email = ?";
+    db.query(sqlSelect, [patFname,patLname,patEmail], (err, result) => {
         response.send(result);
     });
 });
@@ -86,7 +87,7 @@ app.get("/api/totalPatients", (require, response) => {
     // const tableName = require.body.tableName;
     // const attr = require.body.attr;
     // const value = require.body.value;
-
+    console.log("running query")
     const sqlSelect = "SELECT m.MedCompanyName AS company_name, temp.mid, temp.pnum as total_patient \
     FROM Medical_companies m \
         JOIN(SELECT t.MedCompanyID AS mid, COUNT(DISTINCT r.PatientID) AS pnum \

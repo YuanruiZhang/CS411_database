@@ -25,7 +25,10 @@ function App() {
   };
 
   // for select
-  const [sePatID, setsePatID] = useState('');
+  const [sePatFname, setsePatFname] = useState('');
+  const [sePatLname, setsePatLname] = useState('');
+  const [sePatEmail, setsePatEmail] = useState('');
+
   const [sePatRow, setsePatRow]  = useState([]);
 
   // const selectPatient = (patID) => {
@@ -38,9 +41,11 @@ function App() {
   //   // })
   // };
 
-  const selectPatient = (patID) => {
+  const selectPatient = (patFname,patLname,patEmail) => {
     Axios.post('http://localhost:3002/api/search', {
-      patID: patID,
+      patFname: patFname,
+      patLname: patLname,
+      patEmail: patEmail
     })
     .then((response) => {
       if (response.data != []){
@@ -176,14 +181,24 @@ function App() {
 
       <div className = "card">
         <h1> SELECT Patient:  </h1>
-        <p>id:</p>
+        <p>First Name:</p>
         <input type="text" id="patSelectInput" onChange={(e) => {
-                setsePatID(e.target.value)
+                setsePatFname(e.target.value)
+        } }/>
+
+        <p>Last Name:</p>
+        <input type="text" id="patSelectInput" onChange={(e) => {
+                setsePatLname(e.target.value)
+        } }/>
+
+        <p>Email: </p>
+        <input type="text" id="patSelectInput" onChange={(e) => {
+                setsePatEmail(e.target.value)
         } }/>
 
         <button onClick={() => {
-                selectPatient(sePatID)
-                console.log("sePatID: ", sePatID)
+                selectPatient(sePatFname,sePatLname,sePatEmail)
+                // console.log("sePatID: ", sePatID)
         }}> SELECT</button>
       </div>
 
