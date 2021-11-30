@@ -21,7 +21,9 @@ db.connect(function(err) {
     if (err) throw err;
   });
 
-app.post("/api/insert", (require, response) => {
+
+//The next 4 are doctors
+app.post("/Doctors/insert", (require, response) => {
     // const tableName = require.body.tableName;
     const Fname = require.body.docfname;
     const Lname = require.body.docLname;
@@ -36,38 +38,131 @@ app.post("/api/insert", (require, response) => {
     })
 });
 
-app.post("/api/search", (require, response) => {
+app.post("/Doctors/search", (require, response) => {
     // const tableName = require.body.tableName;
     // const attr = require.body.attr;
-    const patFname = require.body.patFname;
-    const patLname = require.body.patLname;
-    const patEmail = require.body.patEmail;
+    const docFname = require.body.docFname;
+    const docLname = require.body.docLname;
+    // const patEmail = require.body.patEmail;
     //response.send(require);
 
 
-    const sqlSelect = "SELECT * FROM Patients WHERE Fname = ? AND Lname = ? AND Email = ?";
-    db.query(sqlSelect, [patFname,patLname,patEmail], (err, result) => {
+    const sqlSelect = "SELECT * FROM Doctors WHERE Fname = ? AND Lname = ?"; // AND Email = ?
+    db.query(sqlSelect, [docFname, docLname], (err, result) => { //,patEmail
         response.send(result);
     });
 });
 
 
-app.put("/api/update/", (require, response) => {
+app.put("/Doctors/update/", (require, response) => {
     // const tableName = require.body.tableName;
     // const attr = require.body.attr;
-    const patientID = require.body.patID;
+    const doctorID = require.body.docID;
     // const attrChange = require.body.attrChange;
-    const patNewEmail = require.body.patNewEmail;
+    const docNewAffli = require.body.docNewAffli;
+    const docNewEmail = require.body.docNewEmail;
     console.log(require.body)
-    const sqlUpdate = "UPDATE Patients SET Email = ? WHERE PatientID= ?";
-    db.query(sqlUpdate, [patNewEmail, patientID], (err, result) => {
+    if(docNewEmail !== null){
+        if (docNewAffli !== null){
+            const sqlUpdate = "UPDATE Doctors SET Email = ?, Affliation = ? WHERE DoctorID= ?";
+            let var_array = [docNewEmail, docNewAffli, doctorID]
+            
+        }
+        else{
+            const sqlUpdate = "UPDATE Doctors SET Email = ? WHERE DoctorID= ?";
+            let var_array = [docNewEmail, doctorID]
+        }
+    }
+    else{
+        const sqlUpdate = "UPDATE Doctors SET Affliation = ? WHERE DoctorID= ?";
+        let var_array = [docNewAffli, doctorID]
+    }
+
+
+    // const sqlUpdate = "UPDATE Doctors SET Email = ?, Affliation = ? WHERE DoctorID= ?";
+    db.query(sqlUpdate, var_array, (err, result) => {
         if (err) 
         console.log(err);
         response.send(result);
     })
 });
 
-app.post("/api/delete", (require, response) => {
+app.post("/Doctors/delete", (require, response) => {
+    // const tableName = require.body.tableName;
+    // const attr = require.body.attr;
+    const value = require.body.docID;
+    console.log(value)
+    const sqlDelete = "DELETE FROM doctors WHERE DoctorID = ?";
+    db.query(sqlDelete, value, (err, result) => {
+        if (err) 
+        console.log(err);
+        response.send('1');
+    })
+});
+
+//the next 4 are patients
+app.post("/patient/insert", (require, response) => {
+    // const tableName = require.body.tableName;
+    const Fname = require.body.patfname;
+    const Lname = require.body.patLname;
+    const DoB  = require.body.patDoB;
+    const Gender = require.body.Gender;
+    const Address = require.body.Address;
+    const State = require.body.State;
+    const Email = require.body.patEmail;///tbd
+    const Description = require.body.Description; 
+
+
+    const sqlInsert = "INSERT INTO Patients (Fname, Lname, DoB, Gender, Address, State, Email, Description) \
+    VALUES (?,?,?,?,?,?,?,?)";
+    db.query(sqlInsert, [Fname, Lname, DoB, Gender, Address, State, Email, Description], (err, result) => {
+        console.log(result)
+        //response.send(result.affectedRows)
+    })
+});
+
+app.post("/patient/search", (require, response) => {
+    // const tableName = require.body.tableName;
+    // const attr = require.body.attr;
+    const patFname = require.body.patFname;
+    const patLname = require.body.patLname;
+    // const patEmail = require.body.patEmail;
+    //response.send(require);
+
+    const sqlSelect = "SELECT * FROM Patients WHERE Fname = ? AND Lname = ? ";//AND Email = ?
+    db.query(sqlSelect, [patFname, patLname], (err, result) => {//,patEmail
+        response.send(result);
+    });
+});
+
+
+app.put("/patient/update/", (require, response) => {
+    // const tableName = require.body.tableName;
+    // const attr = require.body.attr;
+    const patientID = require.body.patID;
+    // const attrChange = require.body.attrChange;
+    
+    const Fname = require.body.patfname;
+    const Lname = require.body.patLname;
+    const DoB  = require.body.patDoB;
+    const Address = require.body.Address;
+    const State = require.body.State;
+    const Email = require.body.patEmail;///tbd
+    const Description = require.body.Description;
+    console.log(require.body)
+
+
+    
+    const sqlUpdate = "UPDATE Patients SET Fname = ?, Lname = ?, DoB = ?, \
+    Address = ?, State = ?, Email = ?, Description = ? WHERE PatientID= ?";
+    db.query(sqlUpdate, [Fname, Lname, DoB, Address, State, Email, Description, patientID], (err, result) => {
+        if (err) 
+        console.log(err);
+        response.send(result);
+    })
+});
+
+app.post("/patient/delete", (require, response) => {
     // const tableName = require.body.tableName;
     // const attr = require.body.attr;
     const value = require.body.patID;
@@ -79,7 +174,6 @@ app.post("/api/delete", (require, response) => {
         response.send('1');
     })
 });
-// advanced SQL queries
 
 
 // Check how many patients total each medical company have 
