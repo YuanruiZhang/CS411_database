@@ -135,7 +135,7 @@ app.post("/patient/search", (require, response) => {
     });
 });
 
-
+//to be continue
 app.put("/patient/update/", (require, response) => {
     // const tableName = require.body.tableName;
     // const attr = require.body.attr;
@@ -174,6 +174,132 @@ app.post("/patient/delete", (require, response) => {
     })
 });
 
+//the next 4 are trials
+app.post("/trail/insert", (require, response) => {
+    // const tableName = require.body.tableName;
+    const title = require.body.title;
+    const MedCID = require.body.MedCompID;
+
+    const Description = require.body.Description; 
+
+
+    const sqlInsert = "INSERT INTO Trials (Title, Description, MedCompanyID) \
+    VALUES (?,?,?)";
+    db.query(sqlInsert, [title, Description, MedCID], (err, result) => {
+        console.log(result)
+        //response.send(result.affectedRows)
+    })
+});
+
+app.post("/trail/search", (require, response) => {
+    // const tableName = require.body.tableName;
+    // const attr = require.body.attr;
+    const title = require.body.title;
+    // const patEmail = require.body.patEmail;
+    //response.send(require);
+
+    const sqlSelect = "SELECT * FROM Trials WHERE Title = ?";//AND Email = ?
+    db.query(sqlSelect, [title], (err, result) => {//,patEmail
+        response.send(result);
+    });
+});
+
+//to be continue
+app.put("/trial/update/", (require, response) => {
+    // const tableName = require.body.tableName;
+    // const attr = require.body.attr;
+    const trialID = require.body.trialID;
+    // const attrChange = require.body.attrChange;
+    
+    const Description = require.body.Description;
+    const MedCID = require.body.MedCompID;
+    console.log(require.body)
+
+
+    const sqlUpdate = "UPDATE Trials SET Description = ?, MedCompanyID = ? WHERE TrialID= ?";
+    db.query(sqlUpdate, [Description, MedCID, trialID], (err, result) => {
+        if (err) 
+        console.log(err);
+        response.send(result);
+    })
+});
+
+app.post("/trial/delete", (require, response) => {
+    // const tableName = require.body.tableName;
+    // const attr = require.body.attr;
+    const value = require.body.MedCID;
+    console.log(value)
+    const sqlDelete = "DELETE FROM Trials WHERE MedCompanyID = ?";
+    db.query(sqlDelete, value, (err, result) => {
+        if (err) 
+        console.log(err);
+        response.send('1');
+    })
+});
+
+//the next 4 are reports
+app.post("/report/insert", (require, response) => {
+    // const tableName = require.body.tableName;
+    const patientID = require.body.patID;
+    const doctorID = require.body.docID;
+    const trialID = require.body.trialID;
+    const Date_ = require.body.date; 
+
+
+    const sqlInsert = "INSERT INTO Reports (PatientID, DoctorID, TrialID, Date) \
+    VALUES (?,?,?)";
+    db.query(sqlInsert, [patientID, doctorID, trialID, Date_], (err, result) => {
+        console.log(result)
+        //response.send(result.affectedRows)
+    })
+});
+
+app.post("/report/search", (require, response) => {
+    // const tableName = require.body.tableName;
+    // const attr = require.body.attr;
+    const title = require.body.patientID;
+    // const patEmail = require.body.patEmail;
+    //response.send(require);
+
+    const sqlSelect = "SELECT * FROM Reports WHERE PatientID = ?";//AND Email = ?
+    db.query(sqlSelect, [title], (err, result) => {//,patEmail
+        response.send(result);
+    });
+});
+
+//to be continue
+app.put("/report/update/", (require, response) => {
+    // const tableName = require.body.tableName;
+    // const attr = require.body.attr;
+    const patientID = require.body.patID;
+    const doctorID = require.body.docID;
+    const trialID = require.body.trialID;
+    const Date_ = require.body.date; 
+    const ReportID = require.body.reportID;
+
+    console.log(require.body)
+
+
+    const sqlUpdate = "UPDATE Trials SET PatientID = ?, DoctorID = ?, Date = ?, TrialID= ? WHERE ReportID= ?";
+    db.query(sqlUpdate, [patientID, doctorID, Date_, trialID, ReportID], (err, result) => {
+        if (err) 
+        console.log(err);
+        response.send(result);
+    })
+});
+
+app.post("/report/delete", (require, response) => {
+    // const tableName = require.body.tableName;
+    // const attr = require.body.attr;
+    const value = require.body.reportID;
+    console.log(value)
+    const sqlDelete = "DELETE FROM Reports WHERE ReportID = ?";
+    db.query(sqlDelete, value, (err, result) => {
+        if (err) 
+        console.log(err);
+        response.send('1');
+    })
+});
 
 // Check how many patients total each medical company have 
 app.get("/api/totalPatients", (require, response) => {
