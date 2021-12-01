@@ -267,7 +267,7 @@ function App() {
         <label>Patient Name: </label>
         <input type="text" name="movieName"/>
 
-        <button>Submit</button>
+        <button>Submit</button>   
       </div> */}
       <div className = "horizBox">
 
