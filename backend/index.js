@@ -65,7 +65,7 @@ app.put("/Doctors/update/", (require, response) => {
         Email : require.body.docNewEmail
         }
     for(var key in doctorInfo){
-            if(doctorInfo[key] == null) delete doctorInfo[key];
+            if(doctorInfo[key] == '') delete doctorInfo[key];
 
     }
 
@@ -156,7 +156,7 @@ app.put("/patient/update/", (require, response) => {
         Description : require.body.Description
         }
     for(var key in patientInfo){
-            if(patientInfo[key] == null) delete patientInfo[key];
+            if(patientInfo[key] == '') delete patientInfo[key];
     }
     const sqlUpdate = "UPDATE Patients SET ? WHERE PatientID = " + patientID;
     db.query(sqlUpdate, patientInfo, (err, result) => {
@@ -226,7 +226,7 @@ app.put("/trial/update/", (require, response) => {
         }
     console.log(require.body)
     for(var key in trialInfo){
-        if(trialInfo[key] == null) delete trialInfo[key];
+        if(trialInfo[key] == '') delete trialInfo[key];
     }
 
     const sqlUpdate = "UPDATE Trials SET ? WHERE TrialID= " + trialID;
@@ -270,11 +270,11 @@ app.post("/report/insert", (require, response) => {
 app.post("/report/search", (require, response) => {
     // const tableName = require.body.tableName;
     // const attr = require.body.attr;
-    const title = require.body.patID;
+    const title = require.body.trialID;
     // const patEmail = require.body.patEmail;
     //response.send(require);
 
-    const sqlSelect = "SELECT * FROM Reports WHERE PatientID = ?";//AND Email = ?
+    const sqlSelect = "SELECT * FROM Reports WHERE TrialID = ?";//AND Email = ?
     db.query(sqlSelect, [title], (err, result) => {//,patEmail
         response.send(result);
     });
@@ -293,7 +293,7 @@ app.put("/report/update/", (require, response) => {
         }
     console.log(require.body)
     for(var key in reportInfo){
-        if(reportInfo[key] == null) delete reportInfo[key];
+        if(reportInfo[key] == '') delete reportInfo[key];
     }
 
     const sqlUpdate = "UPDATE Reports SET ? WHERE reportID= "+ReportID;

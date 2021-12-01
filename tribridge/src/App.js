@@ -104,8 +104,10 @@ function App() {
     };
 
     const updateDoctor = (docID, docEmail,docAffil) => {
+      console.log(docID,docEmail,docAffil)
+
       Axios.put(`http://localhost:3002/Doctors/update`, {
-        doctorID: docID,
+        docID: docID,
         docNewEmail: docEmail,
         docNewAffli: docAffil
       }).then((response) => {
@@ -115,6 +117,7 @@ function App() {
     };
 
     const deleteDoctor = (docID) => {
+      console.log("calling delete doctors with, ", docID)
       Axios.post(`http://localhost:3002/Doctors/delete`, {
         docID: docID
       });
@@ -148,9 +151,10 @@ function App() {
       })
     };
 
-    const updateTrial = (trialID, trialMedCID, trialDescription) => {
+    const updateTrial = (trialID, trialTitle, trialMedCID, trialDescription) => {
       Axios.put(`http://localhost:3002/trial/update/`, {
         trialID: trialID,
+        title: trialTitle,
         MedCompID: trialMedCID,
         Description: trialDescription
       }).then((response) => {
@@ -183,9 +187,9 @@ function App() {
       })
     };
 
-    const selectReport = (reportpatID) => {
+    const selectReport = (trialID) => {
       Axios.post('http://localhost:3002/report/search', {
-        patientID: reportpatID,
+        trialID: trialID,
       })
       .then((response) => {
         if (response.data != []){
@@ -258,7 +262,7 @@ function App() {
   return (
     <div className="App">
       {/* <p>{patPerCompany}</p> */}
-      <h1>Tribrdige DB demo</h1>
+      <h1>Tribrdige Management demo</h1>
       {/* <div className="form">
         <label>Patient Name: </label>
         <input type="text" name="movieName"/>
@@ -347,7 +351,7 @@ function App() {
         } }/>
 
         <button onClick={() => {
-                deleteDoctor(patID)
+                deleteDoctor(docID)
         }}> delete</button>
       </div>
 
@@ -467,7 +471,7 @@ function App() {
           } }/>
 
           <button onClick={() => {
-                  updatePatient(docID,patFname, patLname, patDOB, patGender, patAddr, patState, patEmail, patDescription,)
+                  updatePatient(patID ,patFname, patLname, patDOB, patGender, patAddr, patState, patEmail, patDescription)
           }}> Update</button>
         </div>
 
@@ -534,6 +538,10 @@ function App() {
         <input type="text" id="patSelectInput" onChange={(e) => {
                 settrialID(e.target.value)
         } }/>
+        <p>title:</p>
+        <input type="text" id="patSelectInput" onChange={(e) => {
+                settrialTitle(e.target.value)
+        } }/>
         <p>new med company ID:</p>
         <input type="text" id="patSelectInput" onChange={(e) => {
                 settrialMedCID(e.target.value)
@@ -544,7 +552,7 @@ function App() {
         } }/>
 
         <button onClick={() => {
-                updateTrial(trialID, trialMedCID, trialDescription)
+                updateTrial(trialID, trialTitle, trialMedCID, trialDescription)
         }}> Update</button>
       </div>
 
@@ -566,24 +574,24 @@ function App() {
 <div className = "card">
   <h2>Reflecting Report</h2>
   <ol id="listView">
-  <li>reportID: {trialRow.reportID}</li>
-  <li>PatientID: {trialRow.PatientID}</li>
-  <li>DoctorID: {trialRow.DoctorID}</li>
-  <li>TrialID: {trialRow.TrialID}</li>
-  <li>date: {trialRow.Date}</li>
+  <li>reportID: {reportRow.ReportID}</li>
+  <li>PatientID: {reportRow.PatientID}</li>
+  <li>DoctorID: {reportRow.DoctorID}</li>
+  <li>TrialID: {reportRow.TrialID}</li>
+  <li>date: {reportRow.Date}</li>
 
   </ol>
 </div>
 
 <div className = "card">
 <h1> SELECT Report:  </h1>
-<p>Trial Title:</p>
+<p>Trial ID for report:</p>
 <input type="text" id="patSelectInput" onChange={(e) => {
-        setreportpatID(e.target.value)
+        setreporttrialID(e.target.value)
 } }/>
 
 <button onClick={() => {
-        selectReport(reportpatID)
+        selectReport(reporttrialID)
 }}> SELECT</button>
 </div>
 
@@ -646,13 +654,13 @@ function App() {
 } }/>
 
 <button onClick={() => {
-        deleteTrial(patID)
+        deleteTrial(trialID)
 }}> delete</button>
 </div>
 
 </div>
 
-      <div className = "card">
+      {/* <div className = "card">
         <h1> Update Doctor:  </h1>
         <p>Doctor id:</p>
         <input type="text" id="patSelectInput" onChange={(e) => {
@@ -712,9 +720,9 @@ function App() {
         <button onClick={() => {
                 updatePatient(patID, patFname, patLname, patDOB, patGender, patAddr, patState, patEmail, patDescription)
         }}> Update</button>
-      </div>
+      </div> */}
 
-      <div className = "card">
+      {/* <div className = "card">
         <h1> Patient per Company </h1>
         <button onClick={() => {setPatPerCompanyBtn(true)}
         }> Check </button>
@@ -729,7 +737,7 @@ function App() {
 
         <button onClick={() => {setReportDate(pateintDate)}
         }> Check </button>
-      </div>
+      </div> */}
     
 
       {/* <printCompanyReports isFilled={companyNameReport == []}/> */}
