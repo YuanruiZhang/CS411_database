@@ -24,7 +24,7 @@
 }
 
 .card{
-  width:400px;
+  width:350px;
   height: 400px;
   border: 2px solid grey;
   border-radius: 15px;
@@ -33,7 +33,7 @@
 }
 
 .cardPatient{
-  width:400px;
+  width:350px;
   height: 800px;
   border: 2px solid grey;
   border-radius: 15px;
