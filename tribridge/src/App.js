@@ -49,7 +49,7 @@ function App() {
     })
   };
 
-  const updatePatient = (patID, patfname, patLname, patDoB, Gender, Address, State, patEmail, Description) => {
+  const updatePatient = (patID, patFname, patLname, patDoB, Gender, Address, State, patEmail, Description) => {
     Axios.put(`http://localhost:3002/patient/update`, {
       patID: patID,
       patFname: patFname,

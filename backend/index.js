@@ -26,7 +26,7 @@ db.connect(function(err) {
 //The next 4 are doctors
 app.post("/Doctors/insert", (require, response) => {
     // const tableName = require.body.tableName;
-    const Fname = require.body.docfname;
+    const Fname = require.body.docFname;
     const Lname = require.body.docLname;
     const Affi = require.body.docAffil;
     const Email = require.body.docEmail;///tbd
@@ -81,7 +81,7 @@ app.post("/Doctors/delete", (require, response) => {
     // const attr = require.body.attr;
     const value = require.body.docID;
     console.log(value)
-    const sqlDelete = "DELETE FROM doctors WHERE DoctorID = ?";
+    const sqlDelete = "DELETE FROM Doctors WHERE DoctorID = ?";
     db.query(sqlDelete, value, (err, result) => {
         if (err) 
         console.log(err);
@@ -219,6 +219,7 @@ app.put("/trial/update/", (require, response) => {
     const trialID = require.body.trialID;
     // const attrChange = require.body.attrChange;
     var trialInfo = {
+        Title :require.body.title,
         Description : require.body.Description,
         MedCompanyID : require.body.MedCompID
         }
@@ -238,9 +239,9 @@ app.put("/trial/update/", (require, response) => {
 app.post("/trial/delete", (require, response) => {
     // const tableName = require.body.tableName;
     // const attr = require.body.attr;
-    const value = require.body.MedCID;
+    const value = require.body.trialID;
     console.log(value)
-    const sqlDelete = "DELETE FROM Trials WHERE MedCompanyID = ?";
+    const sqlDelete = "DELETE FROM Trials WHERE TrialID = ?";
     db.query(sqlDelete, value, (err, result) => {
         if (err) 
         console.log(err);
@@ -258,7 +259,7 @@ app.post("/report/insert", (require, response) => {
 
 
     const sqlInsert = "INSERT INTO Reports (PatientID, DoctorID, TrialID, Date) \
-    VALUES (?,?,?)";
+    VALUES (?,?,?,?)";
     db.query(sqlInsert, [patientID, doctorID, trialID, Date_], (err, result) => {
         console.log(result)
         //response.send(result.affectedRows)
@@ -268,7 +269,7 @@ app.post("/report/insert", (require, response) => {
 app.post("/report/search", (require, response) => {
     // const tableName = require.body.tableName;
     // const attr = require.body.attr;
-    const title = require.body.patientID;
+    const title = require.body.patID;
     // const patEmail = require.body.patEmail;
     //response.send(require);
 
