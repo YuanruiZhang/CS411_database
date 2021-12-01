@@ -227,7 +227,7 @@ app.put("/trial/update/", (require, response) => {
         if(trialInfo[key] == null) delete trialInfo[key];
     }
 
-    const sqlUpdate = "UPDATE Trials SET Description = ?, MedCompanyID = ? WHERE TrialID= " + trialID;
+    const sqlUpdate = "UPDATE Trials SET ? WHERE TrialID= " + trialID;
     db.query(sqlUpdate, trialInfo, (err, result) => {
         if (err) 
         console.log(err);
@@ -285,7 +285,7 @@ app.put("/report/update/", (require, response) => {
     const ReportID = require.body.reportID;
     var reportInfo = {
         PatientID : require.body.patID,
-        doctorID : require.body.docID,
+        DoctorID : require.body.docID,
         TrialID : require.body.trialID,
         Date : require.body.date
         }
@@ -294,7 +294,7 @@ app.put("/report/update/", (require, response) => {
         if(reportInfo[key] == null) delete reportInfo[key];
     }
 
-    const sqlUpdate = "UPDATE Trials SET ? WHERE ReportID= "+ReportID;
+    const sqlUpdate = "UPDATE Reports SET ? WHERE reportID= "+ReportID;
     db.query(sqlUpdate, reportInfo, (err, result) => {
         if (err) 
         console.log(err);
