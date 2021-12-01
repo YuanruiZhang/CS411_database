@@ -176,7 +176,7 @@ app.post("/patient/delete", (require, response) => {
 });
 
 //the next 4 are trials
-app.post("/trail/insert", (require, response) => {
+app.post("/trial/insert", (require, response) => {
     // const tableName = require.body.tableName;
     const title = require.body.title;
     const MedCID = require.body.MedCompID;
@@ -192,7 +192,7 @@ app.post("/trail/insert", (require, response) => {
     })
 });
 
-app.post("/trail/search", (require, response) => {
+app.post("/trial/search", (require, response) => {
     // const tableName = require.body.tableName;
     // const attr = require.body.attr;
     const title = require.body.title;
