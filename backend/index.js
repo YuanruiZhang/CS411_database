@@ -152,7 +152,6 @@ app.put("/patient/update/", (require, response) => {
     console.log(require.body)
 
 
-    
     const sqlUpdate = "UPDATE Patients SET Fname = ?, Lname = ?, DoB = ?, \
     Address = ?, State = ?, Email = ?, Description = ? WHERE PatientID= ?";
     db.query(sqlUpdate, [Fname, Lname, DoB, Address, State, Email, Description, patientID], (err, result) => {
