@@ -21,9 +21,9 @@ function App() {
   const [sePatRow, setsePatRow]  = useState([]);
 
 
-  const insertPatient = (patfname, patLname, patDoB, patGender, patAddr, patState, patEmail, patDescription) => { 
+  const insertPatient = (patFname, patLname, patDoB, patGender, patAddr, patState, patEmail, patDescription) => { 
     Axios.post('http://localhost:3002/patient/insert', {
-      patfname: patfname,
+      patFname: patFname,
       patLname: patLname,
       patDoB: patDoB,
       Gender: patGender,
@@ -93,10 +93,10 @@ function App() {
   // const [upPatID, setupPatID] = useState('');
   // const [upPatNewEmail, setupPatNewEmail] = useState('');
 
-  const updatePatient = (patID, patfname, patLname, patDoB, Gender, Address, State, patEmail, Description) => {
+  const updatePatient = (patID, patFname, patLname, patDoB, Gender, Address, State, patEmail, Description) => {
     Axios.put(`http://localhost:3002/patient/update`, {
       patID: patID,
-      patfname: patfname,
+      patFname: patFname,
       patLname: patLname,
       patDoB: patDoB,
       Gender: Gender,
