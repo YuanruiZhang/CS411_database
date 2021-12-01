@@ -134,7 +134,7 @@ app.put("/patient/update/", (require, response) => {
     const patientID = require.body.patID;
     // const attrChange = require.body.attrChange;
     
-    // const Fname = require.body.patfname;
+    // const Fname = require.body.patFname;
     // const Lname = require.body.patLname;
     // const DoB  = require.body.patDoB;
     // const Address = require.body.Address;

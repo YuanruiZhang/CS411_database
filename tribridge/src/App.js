@@ -49,7 +49,7 @@ function App() {
     })
   };
 
-  const updatePatient = (patID, patfname, patLname, patDoB, Gender, Address, State, patEmail, Description) => {
+  const updatePatient = (patID, patFname, patLname, patDoB, Gender, Address, State, patEmail, Description) => {
     Axios.put(`http://localhost:3002/patient/update`, {
       patID: patID,
       patFname: patFname,
@@ -61,6 +61,7 @@ function App() {
       patEmail, patEmail,
       Description, Description
     }).then((response) => {
+      console.log(response.data)
       setsePatRow(response.data)
     })
   };
@@ -108,6 +109,7 @@ function App() {
         docNewEmail: docEmail,
         docNewAffli: docAffil
       }).then((response) => {
+        console.log(response)
         setseDocRow(response.data)
       })
     };
@@ -601,7 +603,7 @@ function App() {
           setreportdate(e.target.value)
   } }/>
   <button onClick={() => {
-          insertTrial(trialTitle, trialMedCID, trialDescription)
+          insertReport(reportpatID, reportdocID, reporttrialID,reportdate)
   }}> INSERT</button>
 </div>
 
