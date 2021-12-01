@@ -217,6 +217,23 @@ function App() {
     };    
 
 
+  ///////////////stored procedure
+  
+  const [companyReport, setCompanyReport] = useState([]);
+  const [companyReportBtn, setCompanyReportBtn] = useState(false);
+
+  const generateReport = () => {
+    console.log("calling generateReport from frontend");
+    Axios.get(`http://localhost:3002/generateReport`).then(resp => {
+      
+      setCompanyReport(resp.data[1])
+      console.log(resp.data)
+    })
+  }
+  
+  ////////////////end stored procedure
+  
+  
 
 
   // advance query 1
@@ -741,6 +758,46 @@ function App() {
     
 
       {/* <printCompanyReports isFilled={companyNameReport == []}/> */}
+
+
+
+
+
+
+
+      <div className = "card">
+        <h1> Company Report</h1>
+        
+        <button onClick={() => {generateReport(); setCompanyReportBtn(true);}
+        }> Check </button>
+      </div>
+
+
+     <ul>
+      {
+        companyReport.map((val) => {
+          if(companyReportBtn){
+
+                return (
+                    <li id="list-to-left">{val.companyID} {val.name} : reports {val.report_num}, patients {val.patient_num}, doctors: {val.doctor_num}, scale: {val.scale}</li>        
+                );
+          }
+              }
+          )
+        }   
+      </ul>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
