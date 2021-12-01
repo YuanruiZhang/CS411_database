@@ -270,10 +270,11 @@ function App() {
         <div className = "card">
           <h2>Reflecting Doctor</h2>
           <ol id="listView">
-          <li>ID: {seDocRow.docID}</li>
-          <li>First Name: {seDocRow.docFname}</li>
-          <li>Last Name: {seDocRow.docLname}</li>
-          <li>Email: {seDocRow.docEmail}</li>
+          <li>ID: {seDocRow.DoctorID}</li>
+          <li>First Name: {seDocRow.Fname}</li>
+          <li>Last Name: {seDocRow.Lname}</li>
+          <li>Affiliation: {seDocRow.Affiliation}</li>
+          <li>Email: {seDocRow.Email}</li>
           </ol>
         </div>
 
@@ -490,9 +491,9 @@ function App() {
         <h2>Reflecting Trial</h2>
         <ol id="listView">
         <li>trialID: {trialRow.trialID}</li>
-        <li>trialTitle: {trialRow.trialTitle}</li>
-        <li>trialMedCID: {trialRow.trialMedCID}</li>
-        <li>trialDescription: {trialRow.trialDescription}</li>
+        <li>trialTitle: {trialRow.Title}</li>
+        <li>trialMedCID: {trialRow.MedCompanyID}</li>
+        <li>trialDescription: {trialRow.Description}</li>
         </ol>
       </div>
 
@@ -566,9 +567,11 @@ function App() {
   <h2>Reflecting Report</h2>
   <ol id="listView">
   <li>reportID: {trialRow.reportID}</li>
-  <li>reportpatID: {trialRow.reportpatID}</li>
-  <li>reportdocID: {trialRow.reportdocID}</li>
-  <li>reporttrialID: {trialRow.reporttrialID}</li>
+  <li>PatientID: {trialRow.PatientID}</li>
+  <li>DoctorID: {trialRow.DoctorID}</li>
+  <li>TrialID: {trialRow.TrialID}</li>
+  <li>date: {trialRow.Date}</li>
+
   </ol>
 </div>
 

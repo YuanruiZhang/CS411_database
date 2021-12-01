@@ -51,6 +51,7 @@ app.post("/Doctors/search", (require, response) => {
     const sqlSelect = "SELECT * FROM Doctors WHERE Fname = ? AND Lname = ?"; // AND Email = ?
     db.query(sqlSelect, [docFname, docLname], (err, result) => { //,patEmail
         response.send(result);
+        console.log(result)
     });
 });
 
