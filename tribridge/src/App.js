@@ -145,11 +145,27 @@ function App() {
   // };
 
 
+
+  // stored procedure
+  const [companyReport, setCompanyReport] = useState([]);
+  const [companyReportBtn, setCompanyReportBtn] = useState(false);
+
+  const generateReport = () => {
+    console.log("calling generateReport from frontend");
+    Axios.get(`http://localhost:3002/generateReport`).then(resp => {
+      
+      setCompanyReport(resp.data)
+      console.log(resp.data)
+    })
+  }
+  // end stored procedure
+
   // advance query 1
   const [patPerCompany, setpatPerCompany] = useState([]);
   const [PatPerCompanyBtn, setPatPerCompanyBtn] = useState(false);
 
   useEffect(() => {
+    console.log("UseEffect test")
     Axios.get('http://localhost:3002/api/totalPatients').then((response) => {
       setpatPerCompany(response.data)
       console.log(response.data)
@@ -474,6 +490,14 @@ function App() {
       </div>
 
       <div className = "card">
+        <h1> Company Report</h1>
+        
+        <button onClick={() => {generateReport(); setCompanyReportBtn(true);}
+        }> Check </button>
+      </div>
+
+
+      <div className = "card">
         <h1> Num Report Per Company </h1>
         <p>Date: </p>
         <input type="text" id="patSelectInput" onChange={(e) => {
@@ -503,6 +527,23 @@ function App() {
           )
         }   
       </ul>
+
+
+      <ul>
+      {
+        companyReport.map((val) => {
+          if(companyReportBtn){
+
+                return (
+                    <li id="list-to-left">{val.companyID} {val.name} : reports {val.report_num}, patients {val.patient_num}, doctors: {val.doctor_num}, scale: {val.scale}</li>        
+                );
+          }
+              }
+          )
+        }   
+      </ul>
+
+
 
       <ul>
         {

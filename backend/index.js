@@ -9,7 +9,8 @@ var db = mysql.createConnection({ //need to confirm this part
     port:'3306',
     user:'root',
     password:"C411projS",
-    database:"tribridge" 
+    database:"tribridge" ,
+    multipleStatements: true
 })
 
 
@@ -20,6 +21,134 @@ app.use(express.json());
 db.connect(function(err) {
     if (err) throw err;
   });
+
+////////stored procedure
+// const sqlStoredProcedure = 
+// `DROP PROCEDURE IF EXISTS generateReport;
+
+// DELIMITER $$
+// CREATE PROCEDURE generateReport()
+//     BEGIN
+// 	DECLARE done int default 0;
+// 	DECLARE currmid int;
+// 	DECLARE pnum int;
+// 	DECLARE dnum int;
+// 	DECLARE midcur CURSOR FOR SELECT MedCompanyID FROM Medical_companies;
+// 	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+
+// 	DROP TABLE IF EXISTS medReport;
+
+// 	CREATE TABLE medReport (
+// 	    companyID int PRIMARY KEY,
+// 	    name VARCHAR(255) NOT NULL,
+// 	    report_num int,
+// 	    patient_num int,
+// 	    doctor_num int,
+// 	    scale VARCHAR(10)
+// 	    );
+	    
+// 	    OPEN midcur;
+//         FETCH midcur INTO currmid; -- changed here
+// 	    REPEAT
+// 	    	-- FETCH midcur INTO currmid;
+// 		INSERT INTO medReport(companyID, name) 
+// 			SELECT m.MedCompanyID, m.MedCompanyName
+// 			FROM Medical_companies m
+// 			WHERE m.MedCompanyID = currmid;
+
+
+		
+// SET @patient_num =  (
+// SELECT COUNT(DISTINCT r.PatientID) AS pnum
+// FROM  Trials t JOIN 
+// (SELECT *
+// FROM Reports r0
+// WHERE r0.FeedbackID IS NOT NULL AND r0.ObservationID IS NOT NULL) r
+// ON t.TrialID = r.TrialID
+// WHERE t.MedCompanyID = currmid);
+
+// 		UPDATE medReport
+// 		SET patient_num = @patient_num
+// 		WHERE companyID = currmid;
+
+		
+		
+// SET @doctor_num =  (
+// SELECT COUNT(DISTINCT r.DoctorID) AS dnum
+// FROM  Trials t JOIN 
+// (SELECT *
+// FROM Reports r0
+// WHERE r0.FeedbackID IS NOT NULL AND r0.ObservationID IS NOT NULL) r
+// ON t.TrialID = r.TrialID
+// WHERE t.MedCompanyID = currmid);
+		
+// UPDATE medReport
+// 		SET doctor_num = @doctor_num
+// WHERE companyID = currmid;
+
+
+
+// SET @report_num =  (
+// SELECT COUNT(DISTINCT r.ReportID) AS rnum
+// FROM  Trials t JOIN 
+// (SELECT *
+// FROM Reports r0
+// WHERE r0.FeedbackID IS NOT NULL AND r0.ObservationID IS NOT NULL) r
+// ON t.TrialID = r.TrialID
+// WHERE t.MedCompanyID = currmid);
+
+// 		UPDATE medReport
+// 		SET report_num = @report_num
+// 		WHERE companyID = currmid;
+
+// 		IF @report_num >= 3 OR @patient_num >= 2 OR @doctor_num >= 2
+// 		THEN
+// 		UPDATE medReport
+// 		SET scale = 'Large'
+// 		WHERE companyID = currmid;
+		
+// 		ELSE
+// 		UPDATE medReport
+// 		SET scale = 'Small'
+// 		WHERE companyID = currmid;
+// 		END IF;
+// FETCH midcur INTO currmid; -- changed here
+// UNTIL done
+// END REPEAT;
+
+// close midcur;
+// END$$
+// DELIMITER ;
+
+// CALL generateReport();
+
+// SELECT * FROM medReport;
+// `;
+// db.query(sqlStoredProcedure, (err, result) => {
+//     console.log("create procedure");
+// });
+
+
+
+app.get("/generateReport", (require, response) => {
+    console.log("running stored procedure");
+    const sqlCallProcedure = `CALL generateReport();
+                           SELECT * FROM medReport;`
+    db.query(sqlCallProcedure, (err, result) => {
+        console.log("generate done");
+        if (err) 
+            console.log(err);
+        response.send(result);
+    });
+});
+////////end stored procedure
+
+
+
+
+
+
+
 
 
 //The next 4 are doctors
