@@ -9,7 +9,8 @@ var db = mysql.createConnection({ //need to confirm this part
     port:'3306',
     user:'root',
     password:"C411projS",
-    database:"tribridge" 
+    database:"tribridge",
+    multipleStatements: true 
 })
 
 
@@ -21,6 +22,21 @@ db.connect(function(err) {
     if (err) throw err;
     console.log('connetion to DB Good');
   });
+
+
+  app.get("/generateReport", (require, response) => {
+    console.log("running stored procedure");
+    const sqlCallProcedure = `CALL generateReport();
+                           SELECT * FROM medReport;`
+    db.query(sqlCallProcedure, (err, result) => {
+        console.log("generate done");
+        if (err) 
+            console.log(err);
+        response.send(result);
+    });
+});
+
+
 
 
 //The next 4 are doctors
